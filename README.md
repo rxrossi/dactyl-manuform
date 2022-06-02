@@ -4,17 +4,14 @@ This is a fork of the [Dactyl-ManuForm](https://github.com/carbonfet/dactyl-manu
 
 ## Parts to build
 
-- [ ] Boards — 2 nice!nano (BlueMicro)
-- [ ] Switches
-- [ ] Print base
-- [ ] Print Plate
-- [ ] Print board holder
-- [ ] Keycaps
-- [ ] Batteries
+- [ ] Switches Gateron Blue
+- [ ] Keycaps DSA
+- [ ] 2 Batteries 3.7 2000mah (50 \* 33 \* 11)
 - [ ] Battery plugs
-- [ ] Wires
-- [ ] Diodes
-- [ ] Screw inserts
+- [x] Boards — 2 nice!nano (BlueMicro)
+- [x] Wires
+- [x] Diodes
+- [x] Screw inserts
 
 ## Features
 
