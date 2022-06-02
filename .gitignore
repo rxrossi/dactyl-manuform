@@ -6,9 +6,8 @@
 
 .lein-*
 *.gcode
-*.scad
 /target
-*.stl
 *.ai
 *.svg
 *.dxf
+.DS_Store
