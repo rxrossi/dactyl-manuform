@@ -8,10 +8,10 @@ This is a fork of the [Dactyl-ManuForm](https://github.com/carbonfet/dactyl-manu
 - [ ] Keycaps DSA
 - [ ] 2 Batteries 3.7 2000mah (50 \* 33 \* 11)
 - [ ] Battery plugs
-- [x] Boards — 2 nice!nano (BlueMicro)
-- [x] Wires
-- [x] Diodes
-- [x] Screw inserts
+- [ ] Boards — 2 nice!nano (BlueMicro)
+- [ ] Wires
+- [ ] Diodes
+- [ ] Screw inserts
 
 ## Features
 
