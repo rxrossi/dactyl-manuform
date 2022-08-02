@@ -67,7 +67,7 @@
 
 ; If you use Cherry MX or Gateron switches, this can be turned on.
 ; If you use other switches such as Kailh, you should set this as false
-(def create-side-nubs? true)
+(def create-side-nubs? false)
 (def create-top-nubs? false)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
