@@ -102,20 +102,20 @@
 
 (def north-facing true)
 (def LED-holder true)
-(def mirror-internals-for-left false) ;false=right hotswap, true=left hotswap TODO derek lazy way to create left and right with correct hot swap holes
 
 (def plate-thickness 5) ;; default 4 to be slightly thicker than case, 5 for hotswap
 (def swap-z          3) ; "thickness" hotswap holder that doesn't protrude through to underside of switch, can go lower, 2mm still grips the hot-swap holder, but it depends how good your 3d printer, filament, tuning, and support settings are
 (def web-thickness   (if use-hotswap (+ plate-thickness swap-z) plate-thickness)) ;; 0.85 or swap-z, previous magic number used to be 3.5
 
-(def mount-width (+ keyswitch-width 3))
-(def mount-height (+ keyswitch-height 3))
+(def mount-width (+ keyswitch-width 2.8))
+(def mount-height (+ keyswitch-height 2.8))
 
 (def holder-x mount-width)
 (def holder-thickness    (/ (- holder-x keyswitch-width) 2))
 (def holder-y            (+ keyswitch-height (* holder-thickness 2)))
 
-(def square-led-size     6)
+(def width-led-size     mount-width)
+(def height-led-size    6)
 
 (def hotswap-holder
   (let [
@@ -170,7 +170,7 @@
                                  (translate [ hotswap-cutout-4-x-offset
                                               hotswap-cutout-3-y-offset
                                               hotswap-cutout-z-offset]))
-        hotswap-led-cutout  (->> (cube square-led-size square-led-size 10)
+        hotswap-led-cutout  (->> (cube width-led-size height-led-size 10)
                                  (translate [ hotswap-cutout-led-x-offset
                                               hotswap-cutout-led-y-offset
                                               hotswap-cutout-z-offset]))
@@ -220,7 +220,7 @@
 )
 
 ;derek's kalih box compatible with hot-swap and north led support
-(def box-hotswap-plate
+(defn box-hotswap-plate [mirror-internals]
   (let [top-wall (->> (cube (+ keyswitch-width 3) 1.5 plate-thickness)
                       (translate [0
                                   (+ (/ 1.5 2) (/ keyswitch-height 2))
@@ -255,7 +255,7 @@
                                      ()
                                   )))
        ]
-       (->> (if mirror-internals-for-left
+       (->> (if mirror-internals
                 (->> plate (mirror [1 0 0]))
                 plate
             )
@@ -264,7 +264,7 @@
 )
 
 ;kalih box
-(def box-single-plate
+(defn box-single-plate [mirror-internals]
   (let [top-wall (->> (cube (+ keyswitch-width 3) 1.5 plate-thickness)
                       (translate [0
                                   (+ (/ 1.5 2) (/ keyswitch-height 2))
@@ -370,11 +370,11 @@
                 (mirror [1 0 0])
                 (mirror [0 1 0])))))	
 				
-(def single-plate
+(defn single-plate [mirror-internals]
 		(if (== switch-type 0) box-single-plate 
 			(if (== switch-type 1) cherry-single-plate 
 				(if (== switch-type 2) Matias-single-plate 
-					(if (== switch-type 3) box-hotswap-plate ))))
+					(if (== switch-type 3) (box-hotswap-plate mirror-internals) ))))
 	)
 
 
@@ -508,7 +508,7 @@
 (defn key-position [column row position]
   (apply-key-geometry (partial map +) rotate-around-x rotate-around-y column row position))
 
-(def key-holes
+(defn key-holes [mirror-internals]
   (apply union
          (for [column columns
                row rows
@@ -517,7 +517,7 @@
                          (and (.contains [(+ innercol-offset 4)] column) extra-row (= ncols (+ innercol-offset 5)))
                          (and inner-column (not= row cornerrow)(= column 0))
                          (not= row lastrow))]
-           (->> single-plate
+           (->> (single-plate mirror-internals)
                 ;                (rotate (/ π 2) [0 0 1])
                 (key-place column row)))))
 (def caps
@@ -548,11 +548,11 @@
                  (key-place 0 2 keyhole-fill)))))
 
 ;placement for the innermost column
-(def key-holes-inner
+(defn key-holes-inner [mirror-internals]
   (if inner-column
     (apply union
            (for [row innerrows]
-             (->> single-plate
+             (->> (single-plate mirror-internals)
                   ;               (rotate (/ π 2) [0 0 1])
                   (key-place 0 row))))))
 
@@ -769,12 +769,12 @@
    (thumb-1x-layout keyhole-fill)
    (thumb-15x-layout (rotate (/ π 2) [0 0 1] keyhole-fill))))
 
-(def thumb
+(defn thumb [mirror-internals]
   (union
-   (thumb-1x-layout (rotate (/ π 2) [0 0 0] single-plate))
-   (thumb-tr-place (rotate (/ π 2) [0 0 1] single-plate))
+   (thumb-1x-layout (rotate (/ π 2) [0 0 0] (single-plate mirror-internals)))
+   (thumb-tr-place (rotate (/ π 2) [0 0 1] (single-plate mirror-internals)))
    (thumb-tr-place larger-plate)
-   (thumb-tl-place (rotate (/ π 2) [0 0 1] single-plate))
+   (thumb-tl-place (rotate (/ π 2) [0 0 1] (single-plate mirror-internals)))
    (thumb-tl-place larger-plate-half)))
 
 (def thumb-post-tr (translate [(- (/ mount-width 2) post-adj)  (- (/ mount-height  1.1) post-adj) 0] web-post))
@@ -929,10 +929,10 @@
    (minithumb-1x-layout keyhole-fill)
    (minithumb-15x-layout (rotate (/ π 2) [0 0 1] keyhole-fill))))
 
-(def minithumb
+(defn minithumb [mirror-internals]
   (union
-   (minithumb-1x-layout single-plate)
-   (minithumb-15x-layout single-plate)))
+   (minithumb-1x-layout (single-plate mirror-internals))
+   (minithumb-15x-layout (single-plate mirror-internals))))
 
 (def minithumb-post-tr (translate [(- (/ mount-width 2) post-adj)  (- (/ mount-height  2) post-adj) 0] web-post))
 (def minithumb-post-tl (translate [(+ (/ mount-width -2) post-adj) (- (/ mount-height  2) post-adj) 0] web-post))
@@ -1096,11 +1096,11 @@
    (cfthumb-1x-layout keyhole-fill)
    (cfthumb-15x-layout (rotate (/ π 2) [0 0 1] keyhole-fill))))
 
-(def cfthumb
+(defn cfthumb [mirror-internals]
   (union
-   (cfthumb-1x-layout single-plate)
+   (cfthumb-1x-layout (single-plate mirror-internals))
    (cfthumb-15x-layout larger-plate-half)
-   (cfthumb-15x-layout single-plate)))
+   (cfthumb-15x-layout (single-plate mirror-internals))))
 
 (def cfthumb-connectors
   (union
@@ -1621,7 +1621,7 @@
     (def screw-offset-tm [9.5 -4.5 0])
     (def screw-offset-bm [8 -1 0]))
 (when (and (= thumb-style "default") (false? inner-column))
-    (def screw-offset-bl [-11.7 -8 0])
+    (def screw-offset-bl [-13.7 -7.5 0])
     (def screw-offset-tm [9.5 -4.5 0])
     (def screw-offset-bm [8 -1 0]))
 
@@ -1687,32 +1687,48 @@
                (key-place lastcol (inc row) web-post-tr))))
 ))))
 
-(def model-right (difference
+(defn model-right [mirror-internals]
+  (difference
+    (union
+      (key-holes mirror-internals)
+      (key-holes-inner mirror-internals)
+      pinky-connectors
+      extra-connectors
+      connectors
+      inner-connectors
+      (thumb-type mirror-internals)
+      thumb-connector-type
+      (difference (union case-walls
+                        screw-insert-outers)
+                  usb-holder-space
+                  trrs-notch
+                  usb-holder-notch
+                  screw-insert-holes))
+    (translate [0 0 -20] (cube 350 350 40))
+  )
+)
+
+(defn key-test [mirror-internals] (difference
                    (union
-                     key-holes
-                     key-holes-inner
-                     pinky-connectors
-                     extra-connectors
-                     connectors
-                     inner-connectors
-                     thumb-type
-                     thumb-connector-type
-                     (difference (union case-walls
-                                        screw-insert-outers)
-                                 usb-holder-space
-                                 trrs-notch
-                                 usb-holder-notch
-                                 screw-insert-holes))
+                     (->> (single-plate mirror-internals)
+                      (key-place 3 3))
+                   )
                    (translate [0 0 -20] (cube 350 350 40))))
 
+(spit "things/right-key-test.scad"
+      (write-scad (key-test false)))
+
+(spit "things/left-key-test.scad"
+      (write-scad (key-test true)))
+
 (spit "things/right.scad"
-      (write-scad model-right))
+      (write-scad (model-right false)))
 
 (spit "things/left.scad"
-      (write-scad (mirror [-1 0 0] model-right)))
+      (write-scad (mirror [-1 0 0] (model-right true))))
 
 (spit "things/right-test.scad"
-      (write-scad (union model-right
+      (write-scad (union (model-right true)
                          thumbcaps-type
                          caps)))
 
@@ -1723,26 +1739,18 @@
           (project
             (difference
               (union
-                key-holes
-                key-holes-inner
+                (key-holes false)
+                (key-holes-inner false)
                 pinky-connectors
                 extra-connectors
                 connectors
                 inner-connectors
-                thumb-type
+                (thumb-type false)
                 thumb-connector-type
                 case-walls
                 thumbcaps-fill-type
                 caps-fill
                 screw-insert-outers)
               (translate [0 0 -10] screw-insert-screw-holes))))))
-
-(spit "things/right-plate-laser.scad"
-      (write-scad
-       (cut
-        (translate [0 0 -0.1]
-                   (difference (union case-walls
-                                      screw-insert-outers)
-                               (translate [0 0 -10] screw-insert-screw-holes))))))
-
+              
 (defn -main [dum] 1)  ; dummy to make it easier to batch

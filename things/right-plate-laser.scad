@@ -16752,7 +16752,7 @@ projection (cut = true) {
               cylinder ($fn=30, h=7, r1=3.65, r2=3.5999999999999996, center=true);
             }
           }
-          translate ([-101.49852319207044, -51.61313774901451, 7/2]) {
+          translate ([-103.49852319207044, -51.11313774901451, 7/2]) {
             union () {
               cylinder ($fn=30, h=7, r1=3.65, r2=3.5999999999999996, center=true);
             }
@@ -16786,7 +16786,7 @@ projection (cut = true) {
               cylinder ($fn=30, h=350, r1=1.7, r2=1.7, center=true);
             }
           }
-          translate ([-101.49852319207044, -51.61313774901451, 175]) {
+          translate ([-103.49852319207044, -51.11313774901451, 175]) {
             union () {
               cylinder ($fn=30, h=350, r1=1.7, r2=1.7, center=true);
             }
