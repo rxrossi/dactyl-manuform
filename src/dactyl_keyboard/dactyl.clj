@@ -1745,7 +1745,7 @@
                 extra-connectors
                 connectors
                 inner-connectors
-                (thumb-type false)
+                (thumb-type "default")
                 thumb-connector-type
                 case-walls
                 thumbcaps-fill-type
