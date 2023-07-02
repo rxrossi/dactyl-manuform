@@ -30,7 +30,7 @@
 
 (def extra-row false)                   ; adds an extra bottom row to the outer columns
 (def inner-column false)                ; adds an extra inner column (two less rows than nrows)
-(def thumb-style "default")                ; toggles between "default", "mini", and "cf" thumb cluster
+(def thumb-style "cf")                ; toggles between "default", "mini", and "cf" thumb cluster
 
 (def column-style :standard)
 
@@ -48,7 +48,7 @@
 
 (def keyboard-z-offset 8)               ; controls overall height; original=9 with centercol=3; use 16 for centercol=2
 
-(def extra-width 2.5)                   ; extra space between the base of keys; original= 2
+(def extra-width 2)                   ; extra space between the base of keys; original= 2
 (def extra-height 1.0)                  ; original= 0.5
 
 (def wall-z-offset -8)                 ; length of the first downward-sloping part of the wall (negative)
@@ -1745,7 +1745,7 @@
                 extra-connectors
                 connectors
                 inner-connectors
-                (thumb-type "default")
+                (thumb-type "cf")
                 thumb-connector-type
                 case-walls
                 thumbcaps-fill-type
