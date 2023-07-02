@@ -1736,9 +1736,11 @@
 
 (spit "things/right-plate.scad"
       (write-scad
+        (difference
         (extrude-linear
          {:height 3 :center false} ; Changed here from 2.6 to 3, thinking it'll be the right size for the magnet stuff
-          (project
+         (difference
+(project
             (difference
               (union
                 (key-holes false)
@@ -1753,8 +1755,9 @@
                 thumbcaps-fill-type
                 caps-fill
                 screw-insert-outers)
-              (translate [0 0 -10] screw-insert-screw-holes))))
-          (difference
+              ))
+           )
+          )
             (translate [0 0 0] screw-insert-holes))
         ))
               
