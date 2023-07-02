@@ -1703,7 +1703,7 @@
                   usb-holder-space
                   trrs-notch
                   usb-holder-notch
-                  screw-insert-holes))
+                  (translate [0 0 0] screw-insert-holes))) ; translate was added for debugging purposes
     (translate [0 0 -20] (cube 350 350 40))
   )
 )
