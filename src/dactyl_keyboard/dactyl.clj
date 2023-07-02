@@ -1605,7 +1605,7 @@
     (def screw-offset-tm [9.5 -4.5 0])
     (def screw-offset-bm [13 -7 0]))
 (when (and (= thumb-style "cf") (false? inner-column))
-    (def screw-offset-bl [-7.7 2 0])
+    (def screw-offset-bl [-7.7 3.8 0])
     (def screw-offset-tm [9.5 -4.5 0])
     (def screw-offset-bm [13 -7 0]))
 (when (and (= thumb-style "mini") inner-column)
