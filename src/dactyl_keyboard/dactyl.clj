@@ -1758,7 +1758,7 @@
               ))
            )
           )
-            (translate [0 0 0] screw-insert-holes))
+            (translate [0 0 1.5] screw-insert-holes))
         ))
               
 (defn -main [dum] 1)  ; dummy to make it easier to batch
