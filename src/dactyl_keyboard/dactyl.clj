@@ -1634,16 +1634,18 @@
          (screw-insert (+ 1 innercol-offset) lastrow         bottom-radius top-radius height screw-offset-bm)))
 
 ; Hole Depth Y: 4.4
-(def screw-insert-height 6)
+(def screw-insert-height 4)
 
 ; Hole Diameter C: 4.1-4.4
 (def screw-insert-bottom-radius (/ 4.0 2))
-(def screw-insert-top-radius (/ 3.9 2))
-(def screw-insert-holes  (screw-insert-all-shapes screw-insert-bottom-radius screw-insert-top-radius screw-insert-height))
+(def screw-insert-top-radius (/ 4.0 2))
+(def screw-insert-holes  (screw-insert-all-shapes screw-insert-bottom-radius screw-insert-top-radius (- screw-insert-height 2.5)))
 
 ; Wall Thickness W:\t1.65
 (def screw-insert-outers (screw-insert-all-shapes (+ screw-insert-bottom-radius 1.65) (+ screw-insert-top-radius 1.65) (+ screw-insert-height 1)))
-(def screw-insert-screw-holes  (screw-insert-all-shapes 1.7 1.7 350))
+
+;This screw-insert-screw-holes is the holes we do on the bottom-plate (right-plate)
+(def screw-insert-screw-holes  (screw-insert-all-shapes screw-insert-bottom-radius screw-insert-top-radius 350))
 
 ; Connectors between outer column and right wall when 1.5u keys are used
 (def pinky-connectors
@@ -1735,7 +1737,7 @@
 (spit "things/right-plate.scad"
       (write-scad
         (extrude-linear
-          {:height 2.6 :center false}
+         {:height 3 :center false} ; Changed here from 2.6 to 3, thinking it'll be the right size for the magnet stuff
           (project
             (difference
               (union
@@ -1751,6 +1753,9 @@
                 thumbcaps-fill-type
                 caps-fill
                 screw-insert-outers)
-              (translate [0 0 -10] screw-insert-screw-holes))))))
+              (translate [0 0 -10] screw-insert-screw-holes))))
+          (difference
+            (translate [0 0 0] screw-insert-holes))
+        ))
               
 (defn -main [dum] 1)  ; dummy to make it easier to batch
