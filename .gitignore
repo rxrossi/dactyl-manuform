@@ -11,3 +11,5 @@
 *.svg
 *.dxf
 .DS_Store
+.clj-kondo
+.lsp
