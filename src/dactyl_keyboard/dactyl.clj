@@ -1740,25 +1740,21 @@
         (extrude-linear
          {:height 3 :center false} ; Changed here from 2.6 to 3, thinking it'll be the right size for the magnet stuff
          (difference
-(project
-            (difference
-              (union
-                (key-holes false)
-                (key-holes-inner false)
-                pinky-connectors
-                extra-connectors
-                connectors
-                inner-connectors
-                (thumb-type "cf")
-                thumb-connector-type
-                case-walls
-                thumbcaps-fill-type
-                caps-fill
-                screw-insert-outers)
-              ))
-           )
-          )
-            (translate [0 0 1.5] screw-insert-holes))
-        ))
+            (project
+              (difference
+                (union
+                  (key-holes false)
+                  (key-holes-inner false)
+                  pinky-connectors
+                  extra-connectors
+                  connectors
+                  inner-connectors
+                  (thumb-type "cf")
+                  thumb-connector-type
+                  case-walls
+                  thumbcaps-fill-type
+                  caps-fill
+                  screw-insert-outers)))))
+            (translate [0 0 1.5] screw-insert-holes))))
               
 (defn -main [dum] 1)  ; dummy to make it easier to batch
