@@ -1717,26 +1717,8 @@
                    )
                    (translate [0 0 -20] (cube 350 350 40))))
 
-(spit "things/right-key-test.scad"
-      (write-scad (key-test false)))
-
-(spit "things/left-key-test.scad"
-      (write-scad (key-test true)))
-
-(spit "things/right.scad"
-      (write-scad (model-right false)))
-
-(spit "things/left.scad"
-      (write-scad (mirror [-1 0 0] (model-right true))))
-
-(spit "things/right-test.scad"
-      (write-scad (union (model-right true)
-                         thumbcaps-type
-                         caps)))
-
-(spit "things/right-plate.scad"
-      (write-scad
-        (difference
+(def right-plate
+  (difference
         (extrude-linear
          {:height 3 :center false} ; Changed here from 2.6 to 3, thinking it'll be the right size for the magnet stuff
          (difference
@@ -1755,6 +1737,32 @@
                   thumbcaps-fill-type
                   caps-fill
                   screw-insert-outers)))))
-            (translate [0 0 1.5] screw-insert-holes))))
+            (translate [0 0 1.5] screw-insert-holes)))
+
+(spit "things/right-key-test.scad"
+      (write-scad (key-test false)))
+
+(spit "things/left-key-test.scad"
+      (write-scad (key-test true)))
+
+(spit "things/right.scad"
+      (write-scad (model-right false)))
+
+(spit "things/left.scad"
+      (write-scad (mirror [-1 0 0] (model-right true))))
+
+(spit "things/right-test.scad"
+      (write-scad (union (model-right true)
+                         thumbcaps-type
+                         caps)))
+
+
+(spit "things/right-plate.scad"
+      (write-scad
+        right-plate))
+
+(spit "things/left-plate.scad"
+      (write-scad
+        (mirror [-1 0 0 ] right-plate)))
               
 (defn -main [dum] 1)  ; dummy to make it easier to batch
